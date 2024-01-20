@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:care_alert/Profile_medicine.dart';
@@ -7,7 +6,6 @@ import 'package:care_alert/widgets/CustomWidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:care_alert/widgets/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
@@ -64,15 +62,15 @@ class _AddMedicineState extends State<AddMedicine> {
   File? imagepath;
   String? imagedata;
   var profile_name = "";
-  ImagePicker imagePicker=new ImagePicker();
+  ImagePicker imagePicker=ImagePicker();
   @override
   Future<void> addMedicine() async {
     print("Date: "+date);
     print("Time:"+time);
     var prefs = await SharedPreferences.getInstance();
     setState(() {
-      var getprofile_name = prefs.getString("profile_name");
-      profile_name = getprofile_name!;
+      var getprofileName = prefs.getString("profile_name");
+      profile_name = getprofileName!;
     });
     try {
       String uri = "http://10.0.2.2/carealert_api/insertMedicine.php";
@@ -113,14 +111,16 @@ class _AddMedicineState extends State<AddMedicine> {
       print(e);
     }
   }
+  @override
   void initState() {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: MainHeader(
+        title: const MainHeader(
           titleName: "Add Medicine",
         ),
         backgroundColor: Colors.lightGreen,
@@ -129,8 +129,8 @@ class _AddMedicineState extends State<AddMedicine> {
           itemCount: 1,
           itemBuilder: ((context, index) {
             return Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: Container(
                 child: Form(
                   key: _formfield,
@@ -143,23 +143,24 @@ class _AddMedicineState extends State<AddMedicine> {
                             if (value!.isEmpty) {
                               return "Enter Medicine Name";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: 'Enter Medicine Name',
-                              prefixIcon: Icon(Icons.person,
+                              prefixIcon: const Icon(Icons.person,
                                   color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  BorderSide(color: Colors.blue, width: 2)),
+                                  const BorderSide(color: Colors.blue, width: 2)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                               )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Row(
@@ -217,34 +218,34 @@ class _AddMedicineState extends State<AddMedicine> {
                             });
                           })
                     ])),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       imagepath != null
                           ? Image.file(imagepath!)
-                          : Text("Photo Not Choose Yet"),
-                      Container(
+                          : const Text("Photo Not Choose Yet"),
+                      SizedBox(
                         width: 170,
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
                             getImage();
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(11)))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Icon(Icons.image_outlined,color: Colors.white,),
-                              Text(_filename,style: TextStyle(color: Colors.white),),
+                              const Icon(Icons.image_outlined,color: Colors.white,),
+                              Text(_filename,style: const TextStyle(color: Colors.white),),
                             ],
                           ),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.blueAccent,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(11)))),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Center(
@@ -257,7 +258,7 @@ class _AddMedicineState extends State<AddMedicine> {
                                 addMedicine();
                                 setState(() {
                                   Navigator.of(context, rootNavigator: true).pushReplacement(
-                                      MaterialPageRoute(builder: (context) => ProfileMedicine()));
+                                      MaterialPageRoute(builder: (context) => const ProfileMedicine()));
                                 });
                               }
                             },

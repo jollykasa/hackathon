@@ -8,7 +8,6 @@ import 'package:care_alert/widgets/CustomWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import 'AddProfile.dart';
 import 'UpdateMedicine.dart';
 class ProfileMedicine extends StatefulWidget {
   const ProfileMedicine({super.key});
@@ -24,8 +23,8 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
   Future<void> getmedicinerecord() async {
     var prefs = await SharedPreferences.getInstance();
     setState(() {
-      var getprofile_name = prefs.getString("profile_name");
-      profile_name = getprofile_name!;
+      var getprofileName = prefs.getString("profile_name");
+      profile_name = getprofileName!;
     });
     String uri = "http://10.0.2.2/carealert_api/viewMedicine.php";
     try {
@@ -41,6 +40,7 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
       print(e);
     }
   }
+  @override
   void initState() {
     super.initState();
     getmedicinerecord();
@@ -79,29 +79,29 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
                                     width: 90,
                                     height: 100,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 50,
                                     height: 20,
                                   ),
                                   Column(
                                     children: [
                                       Wrap(children: [Text("Medication: "+medication[index]["m_medicine"], style: medicineTextStyle())]),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Wrap(children: [Text("Time: "+medication[index]["m_time"], style: medicineTextStyle())]),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 50,
                                       ),
                                       Wrap(children: [Text("Date: "+medication[index]["m_date"], style: medicineTextStyle())]),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 50,
                                         height: 15,
                                       ),
                                       EButton(
                                           btnName: "Edit",
                                           bgcolor: Colors.blue,
-                                          icon: Icon(Icons.update,color: Colors.white,),
+                                          icon: const Icon(Icons.update,color: Colors.white,),
                                           callBack: () async{
                                             var prefs = await SharedPreferences.getInstance();
                                             prefs.setString(
@@ -110,7 +110,7 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      UpdateMedicine(),
+                                                      const UpdateMedicine(),
                                                 ));
                                             }),
                                     ],
@@ -195,7 +195,7 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
           backgroundColor: Colors.grey,
           onPressed: () {
              Navigator.of(context, rootNavigator: true).push(
-                 MaterialPageRoute(builder: (context) => AddMedicine()));
+                 MaterialPageRoute(builder: (context) => const AddMedicine()));
           },
           child: const Icon(Icons.add,size: 30)),
         );

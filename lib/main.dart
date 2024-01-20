@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:care_alert/home.dart';
 import 'package:flutter/material.dart';
-import 'home.dart';
 import 'SplashScreen.dart';
 import 'myheaderdrawer.dart';
 import 'setting.dart';
@@ -23,7 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -42,17 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var container;
     if (currentPage == DrawerSections.home) {
-      container = Home();
+      container = const Home();
     } else if (currentPage == DrawerSections.history) {
-      container = History();
+      container = const History();
     } else if (currentPage == DrawerSections.settings) {
-      container = Settings();
+      container = const Settings();
     }
     return Scaffold(
       // body: Center(child: widgetList[myIndex]),
       body: container,
       appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             size: 30, //change size on your need
             color: Colors.white, //change color on your need
           ),
@@ -82,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Container(
             child: Column(
               children: [
-                MyHeaderDrawer(),
+                const MyHeaderDrawer(),
                 MyDrawerList(),
               ],
             ),
@@ -94,14 +91,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget MyDrawerList() {
     return Container(
-      padding: EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
         children: [
           menuItem(1, "Home", Icons.home,
               currentPage == DrawerSections.home ? true : false),
           menuItem(2, "History", Icons.dashboard_outlined,
               currentPage == DrawerSections.history ? true : false),
-          Divider(),
+          const Divider(),
           menuItem(3, "Settings", Icons.settings,
               currentPage == DrawerSections.settings ? true : false),
         ],
@@ -126,13 +123,13 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
           child: Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
               children: [
                 Expanded(child: Icon(icon, size: 22)),
                 Expanded(
                   flex: 3,
-                  child: Text(title, style: TextStyle(fontSize: 18)),
+                  child: Text(title, style: const TextStyle(fontSize: 18)),
                 )
               ],
             ),

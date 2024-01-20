@@ -26,10 +26,12 @@ class _HomeState extends State<Home> {
       print(e);
     }
   }
+  @override
   void initState() {
     super.initState();
     getprofilerecord();
   }
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       body: Column(
@@ -45,7 +47,7 @@ class _HomeState extends State<Home> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProfileMedicine(),
+                              builder: (context) => const ProfileMedicine(),
                             ));
                       },
                       child: MySquareHome(
@@ -69,7 +71,7 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.grey,
           onPressed: () {
             Navigator.of(context, rootNavigator: true).push(
-                MaterialPageRoute(builder: (context) => AddProfile()));
+                MaterialPageRoute(builder: (context) => const AddProfile()));
           },
           child: const Icon(Icons.add,size: 30)),
     );

@@ -4,6 +4,7 @@ import 'main.dart';
 
 class SplashScreen extends StatefulWidget{
   const SplashScreen({super.key});
+  @override
   State<SplashScreen> createState()=> _SplashScreenState();
 }
 class _SplashScreenState extends State<SplashScreen>
@@ -14,10 +15,11 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController animationController;
   bool isFirst=true;
 
+  @override
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
     colorAnimation =
         ColorTween(begin: Colors.blueGrey, end: const Color(0xff99A799))
             .animate(animationController);
@@ -27,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
       setState(() {});
     });
     animationController.forward();
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       reload();
     });
     whereToGo();
@@ -37,6 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
       isFirst=false;
     });
   }
+  @override
   Widget build(BuildContext context){
     return Scaffold(
         body: Container(
@@ -49,16 +52,16 @@ class _SplashScreenState extends State<SplashScreen>
                         firstChild: Image.asset('assets/images/rem2.png',width: 300,height: 400,),
                         secondChild: Image.asset('assets/images/rem.png',width: 300,height: 400,),
                         crossFadeState: isFirst? CrossFadeState.showFirst: CrossFadeState.showSecond ,
-                        duration: Duration(seconds: 2)),
+                        duration: const Duration(seconds: 2)),
                     Text("Care Alert",style:TextStyle(fontSize:50,fontWeight:FontWeight.bold,color: colortextAnimation.value),),
                   ],
                 ))));
   }
   void whereToGo() async {
-    Timer(Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context,MaterialPageRoute(
-          builder: (context) => MyHomePage(title: 'Flutter')));
+          builder: (context) => const MyHomePage(title: 'Flutter')));
     });
   }
 }

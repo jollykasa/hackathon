@@ -7,8 +7,6 @@ import 'package:care_alert/widgets/CustomWidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:care_alert/widgets/util.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 class AddProfile extends StatefulWidget {
   const AddProfile({super.key});
 
@@ -24,7 +22,7 @@ class _AddProfileState extends State<AddProfile> {
   String _filename = "Choose Image";
   File? imagepath;
   String? imagedata;
-  ImagePicker imagePicker=new ImagePicker();
+  ImagePicker imagePicker=ImagePicker();
   @override
   Future<void> insertProfile() async {
     try {
@@ -65,10 +63,11 @@ class _AddProfileState extends State<AddProfile> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: MainHeader(
+        title: const MainHeader(
           titleName: "Add Profile",
         ),
         backgroundColor: Colors.lightGreen,
@@ -77,8 +76,8 @@ class _AddProfileState extends State<AddProfile> {
           itemCount: 1,
           itemBuilder: ((context, index) {
             return Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: Container(
                 child: Form(
                   key: _formfield,
@@ -91,23 +90,24 @@ class _AddProfileState extends State<AddProfile> {
                             if (value!.isEmpty) {
                               return "Enter Profile Name";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: 'Enter Profile Name',
-                              prefixIcon: Icon(Icons.person,
+                              prefixIcon: const Icon(Icons.person,
                                   color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  BorderSide(color: Colors.blue, width: 2)),
+                                  const BorderSide(color: Colors.blue, width: 2)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                               )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       SizedBox(
@@ -118,50 +118,51 @@ class _AddProfileState extends State<AddProfile> {
                             if (value!.isEmpty) {
                               return "Enter Age";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: 'Enter Age',
                               prefixIcon:
-                              Icon(Icons.date_range, color: Colors.black),
+                              const Icon(Icons.date_range, color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  BorderSide(color: Colors.blue, width: 2)),
+                                  const BorderSide(color: Colors.blue, width: 2)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                               )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       imagepath != null
                           ? Image.file(imagepath!)
-                          : Text("Image Not Choose Yet"),
-                      Container(
+                          : const Text("Image Not Choose Yet"),
+                      SizedBox(
                         width: 170,
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
                             getImage();
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(11)))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Icon(Icons.image_outlined,color: Colors.white,),
-                              Text(_filename,style: TextStyle(color: Colors.white),),
+                              const Icon(Icons.image_outlined,color: Colors.white,),
+                              Text(_filename,style: const TextStyle(color: Colors.white),),
                             ],
                           ),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.blueAccent,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(11)))),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Center(
@@ -174,7 +175,7 @@ class _AddProfileState extends State<AddProfile> {
                                 insertProfile();
                                 setState(() {
                                   Navigator.of(context, rootNavigator: true).pushReplacement(
-                                      MaterialPageRoute(builder: (context) => MyHomePage(title: "flutter")));
+                                      MaterialPageRoute(builder: (context) => const MyHomePage(title: "flutter")));
                                 });
                               }
                             },

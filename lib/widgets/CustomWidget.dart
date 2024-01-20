@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:care_alert/SplashScreen.dart';
-import 'package:care_alert/home.dart';
 import 'package:care_alert/main.dart';
-import '../UpdateMedicine.dart';
 import 'util.dart';
 
 class MySquareHome extends StatelessWidget {
   final String child;
   final String image;
-  MySquareHome({required this.child, required this.image});
+  const MySquareHome({super.key, required this.child, required this.image});
+  @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -23,9 +21,9 @@ class MySquareHome extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/' + image,
+                  'assets/images/$image',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Wrap(children: [Text(child, style: photoTextStyle())]),
@@ -90,13 +88,14 @@ class MySquareHome extends StatelessWidget {
 // }
 class MainHeader extends StatelessWidget {
   final String titleName;
-  MainHeader({required this.titleName});
+  const MainHeader({super.key, required this.titleName});
+  @override
   Widget build(BuildContext context) {
     return Row(children: [
       TextButton(
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pushReplacement(
-                MaterialPageRoute(builder: (context) => MyHomePage(title: "flutter")));
+                MaterialPageRoute(builder: (context) => const MyHomePage(title: "flutter")));
           },
           child: SizedBox(
             width: 70,
@@ -117,35 +116,36 @@ class EButton extends StatelessWidget {
   final Icon? icon;
   final Color? bgcolor;
   final VoidCallback? callBack;
-  EButton(
-      {required this.btnName,
+  const EButton(
+      {super.key, required this.btnName,
         this.icon,
         this.bgcolor = Colors.blueGrey,
         this.callBack});
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: 160,
         height: 50,
         child: ElevatedButton(
           onPressed: () {
             callBack!();
           },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: bgcolor,
+              shadowColor: bgcolor,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(11)))),
           child: icon != null
               ? Row(
             children: [
               icon!,
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
-              Text(btnName, style: TextStyle(color: Colors.white))
+              Text(btnName, style: const TextStyle(color: Colors.white))
             ],
           )
-              : Text(btnName, style: TextStyle(color: Colors.white)),
-          style: ElevatedButton.styleFrom(
-              primary: bgcolor,
-              shadowColor: bgcolor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(11)))),
+              : Text(btnName, style: const TextStyle(color: Colors.white)),
         ));
   }
 }

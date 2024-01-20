@@ -7,7 +7,6 @@ import 'package:care_alert/widgets/CustomWidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:care_alert/widgets/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class UpdateMedicine extends StatefulWidget {
   const UpdateMedicine({super.key});
@@ -25,7 +24,7 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
   String _filename = "Choose Image";
   File? imagepath;
   String? imagedata;
-  ImagePicker imagePicker=new ImagePicker();
+  ImagePicker imagePicker=ImagePicker();
   @override
   var med_id = "";
   var pretable_id = "";
@@ -33,8 +32,8 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
     // var time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
     var prefs = await SharedPreferences.getInstance();
     setState(() {
-      var getMed_id = prefs.getString("med_id");
-      med_id = getMed_id!;
+      var getmedId = prefs.getString("med_id");
+      med_id = getmedId!;
       // var getPertable = prefs.getString("pretableid");
       // pretable_id = getPertable!;
     });
@@ -85,10 +84,11 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: MainHeader(
+        title: const MainHeader(
           titleName: "Edit Medicine",
         ),
         backgroundColor: Colors.lightGreen,
@@ -97,8 +97,8 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
           itemCount: 1,
           itemBuilder: ((context, index) {
             return Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               child: Container(
                 child: Form(
                   key: _formfield,
@@ -111,23 +111,24 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                             if (value!.isEmpty) {
                               return "Enter Medicine Name";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: 'Enter Medicine Name',
-                              prefixIcon: Icon(Icons.person,
+                              prefixIcon: const Icon(Icons.person,
                                   color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  BorderSide(color: Colors.blue, width: 2)),
+                                  const BorderSide(color: Colors.blue, width: 2)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                               )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       SizedBox(
@@ -138,23 +139,24 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                             if (value!.isEmpty) {
                               return "Enter Time";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: 'Enter Time',
                               prefixIcon:
-                              Icon(Icons.timelapse, color: Colors.black),
+                              const Icon(Icons.timelapse, color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  BorderSide(color: Colors.blue, width: 2)),
+                                  const BorderSide(color: Colors.blue, width: 2)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                               )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       SizedBox(
@@ -164,50 +166,51 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                             if (value!.isEmpty) {
                               return "Enter Date";
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: 'Enter Date',
-                              prefixIcon: Icon(Icons.date_range,
+                              prefixIcon: const Icon(Icons.date_range,
                                   color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
-                                  BorderSide(color: Colors.blue, width: 2)),
+                                  const BorderSide(color: Colors.blue, width: 2)),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(color: Colors.black, width: 2),
+                                const BorderSide(color: Colors.black, width: 2),
                               )),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       imagepath != null
                           ? Image.file(imagepath!)
-                          : Text("Image Not Choose Yet"),
-                      Container(
+                          : const Text("Image Not Choose Yet"),
+                      SizedBox(
                         width: 170,
                         height: 55,
                         child: ElevatedButton(
                           onPressed: () {
                             getImage();
                           },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(11)))),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Icon(Icons.image_outlined,color: Colors.white,),
-                              Text(_filename,style: TextStyle(color: Colors.white),),
+                              const Icon(Icons.image_outlined,color: Colors.white,),
+                              Text(_filename,style: const TextStyle(color: Colors.white),),
                             ],
                           ),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.blueAccent,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(11)))),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Center(
@@ -220,7 +223,7 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                                 updateMedicine();
                                 setState(() {
                                   Navigator.of(context, rootNavigator: true).pushReplacement(
-                                      MaterialPageRoute(builder: (context) => MyHomePage(title: "flutter")));
+                                      MaterialPageRoute(builder: (context) => const MyHomePage(title: "flutter")));
                                 });
                               }
                             },

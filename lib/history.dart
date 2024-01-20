@@ -8,13 +8,14 @@ class History extends StatefulWidget{
 }
 
 class _HistoryState extends State<History> {
+  @override
   Widget build(BuildContext context){
     return Container(
       child: ListView.builder(
           itemCount: 5,
           itemBuilder: ((context, index) {
             return Container(
-                child: MySquareHome(
+                child: const MySquareHome(
                   // child: homedata[index]["h_name"],
                   // image: homedata[index]["h_gallery"]));
                     child: "text",
