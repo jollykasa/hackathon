@@ -9,6 +9,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:care_alert/widgets/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+
+final materialDateButtonKey = UniqueKey();
+final materialTimeButtonKey = UniqueKey();
+final materialDateTimeButtonKey = UniqueKey();
 class AddMedicine extends StatefulWidget {
   const AddMedicine({super.key});
 
@@ -16,7 +21,40 @@ class AddMedicine extends StatefulWidget {
   State<AddMedicine> createState() => _AddMedicineState();
 }
 
+
 class _AddMedicineState extends State<AddMedicine> {
+  DateTime dateTime = DateTime.now();
+  int counter = 0;
+  var time,date;
+  /// Opens date picker and returns possible `DateTime` object.
+  Future<DateTime?> pickDate() => showDatePicker(context: context, initialDate: dateTime, firstDate: DateTime(1900), lastDate: DateTime(2100));
+
+  /// Opens time picker and returns possible `TimeOfDay` object.
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      });
+
+  /// Opens date picker and time picker consecutively and sets the `DateTime` field of the page.
+  Future pickDateTime() async {
+    DateTime? date = await pickDate();
+    if (date == null) return; // pressed 'CANCEL'
+
+    TimeOfDay? time = await pickTime();
+    if (time == null) return; // pressed 'CANCEL'
+
+    // Update datetime object that's shown with new date
+    final newDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    setState(() {
+      dateTime = newDateTime;
+      counter = counter + 1;
+    });
+  }
   final _formfield = GlobalKey<FormState>();
   var m_medicine = TextEditingController();
   // var m_time = TextEditingController();
@@ -25,26 +63,36 @@ class _AddMedicineState extends State<AddMedicine> {
   String _filename = "Med Photo";
   File? imagepath;
   String? imagedata;
+  var profile_name = "";
   ImagePicker imagePicker=new ImagePicker();
   @override
-  Future<void> insertProfile() async {
-    // try {
-    //   String uri = "http://10.0.2.2/carealert_api/insertProfile.php";
-    //   var res = await http.post(Uri.parse(uri), body: {
-    //     "p_name": p_name.text,
-    //     "p_age": p_age.text,
-    //     "p_image": _filename,
-    //   });
-    //   print(res.body);
-    //   var response = jsonDecode(res.body);
-    //   if (response["sucess"] == "true") {
-    //     print("Record Inserted successfully");
-    //   } else {
-    //     print("Record Insert Failed");
-    //   }
-    // } catch (e) {
-    //   print(e);
-    // }
+  Future<void> addMedicine() async {
+    print("Date: "+date);
+    print("Time:"+time);
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var getprofile_name = prefs.getString("profile_name");
+      profile_name = getprofile_name!;
+    });
+    try {
+      String uri = "http://10.0.2.2/carealert_api/insertMedicine.php";
+      var res = await http.post(Uri.parse(uri), body: {
+        "m_pname":profile_name,
+        "m_medicine": m_medicine.text,
+        "m_time":time,
+        "m_date":date,
+        "m_image": _filename,
+      });
+      print(res.body);
+      // var response = jsonDecode(res.body);
+      // if (response["sucess"] == "true") {
+      //   print("Record Inserted successfully");
+      // } else {
+      //   print("Record Insert Failed");
+      // }
+    } catch (e) {
+      print(e);
+    }
   }
   Future<void> getImage() async {
     var getimage = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -64,6 +112,9 @@ class _AddMedicineState extends State<AddMedicine> {
     } catch (e) {
       print(e);
     }
+  }
+  void initState() {
+    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -108,33 +159,64 @@ class _AddMedicineState extends State<AddMedicine> {
                               )),
                         ),
                       ),
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
-                      // SizedBox(
-                      //   child: TextFormField(
-                      //     controller: p_age,
-                      //     keyboardType: TextInputType.number,
-                      //     validator: (value) {
-                      //       if (value!.isEmpty) {
-                      //         return "Enter Age";
-                      //       }
-                      //     },
-                      //     decoration: InputDecoration(
-                      //         hintText: 'Enter Age',
-                      //         prefixIcon:
-                      //         Icon(Icons.date_range, color: Colors.black),
-                      //         focusedBorder: OutlineInputBorder(
-                      //             borderRadius: BorderRadius.circular(11),
-                      //             borderSide:
-                      //             BorderSide(color: Colors.blue, width: 2)),
-                      //         enabledBorder: OutlineInputBorder(
-                      //           borderRadius: BorderRadius.circular(11),
-                      //           borderSide:
-                      //           BorderSide(color: Colors.black, width: 2),
-                      //         )),
-                      //   ),
-                      // ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            date=DateFormat('yyyy-MM-dd').format(dateTime),
+                            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            time=DateFormat(' kk:mm').format(dateTime),
+                            style: const TextStyle(fontSize: 25),
+                          ),
+                        ],
+                      ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                          key: materialDateButtonKey,
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                          child: const Text(
+                            "Date",
+                            style: TextStyle(fontSize: 20,color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            final newDate = await pickDate();
+                            if (newDate == null) return; // person pressed 'CANCEL'
+
+                            // Update datetime object that's shown with new date
+                            final newDateTime = DateTime(newDate.year, newDate.month, newDate.day, dateTime.hour, dateTime.minute);
+                            setState(() {
+                              dateTime = newDateTime;
+                              counter = counter + 1;
+                            });
+                          }),
+                      ElevatedButton(
+                          key: materialTimeButtonKey,
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                          child: const Text(
+                            "Time",
+                            style: TextStyle(fontSize: 20,color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            final newTime = await pickTime();
+                            if (newTime == null) return; // person pressed 'CANCEL'
+
+                            // Update datetime object that's shown with new time
+                            final newDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, newTime.hour, newTime.minute);
+                            setState(() {
+                              dateTime = newDateTime;
+                              counter = counter + 1;
+                            });
+                          })
+                    ])),
                       SizedBox(
                         height: 30,
                       ),
@@ -172,7 +254,7 @@ class _AddMedicineState extends State<AddMedicine> {
                             bgcolor: Colors.lightGreen,
                             callBack: () {
                               if (_formfield.currentState!.validate()) {
-                                insertProfile();
+                                addMedicine();
                                 setState(() {
                                   Navigator.of(context, rootNavigator: true).pushReplacement(
                                       MaterialPageRoute(builder: (context) => ProfileMedicine()));
@@ -191,3 +273,27 @@ class _AddMedicineState extends State<AddMedicine> {
     );
   }
 }
+// SizedBox(
+//   child: TextFormField(
+//     controller: p_age,
+//     keyboardType: TextInputType.number,
+//     validator: (value) {
+//       if (value!.isEmpty) {
+//         return "Enter Age";
+//       }
+//     },
+//     decoration: InputDecoration(
+//         hintText: 'Enter Age',
+//         prefixIcon:
+//         Icon(Icons.date_range, color: Colors.black),
+//         focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(11),
+//             borderSide:
+//             BorderSide(color: Colors.blue, width: 2)),
+//         enabledBorder: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(11),
+//           borderSide:
+//           BorderSide(color: Colors.black, width: 2),
+//         )),
+//   ),
+// ),

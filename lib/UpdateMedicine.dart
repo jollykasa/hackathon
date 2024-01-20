@@ -27,36 +27,36 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
   String? imagedata;
   ImagePicker imagePicker=new ImagePicker();
   @override
-  var item_id = "";
+  var med_id = "";
   var pretable_id = "";
   Future<void> updateMedicine() async {
     // var time = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
     var prefs = await SharedPreferences.getInstance();
     setState(() {
-      var getCategory = prefs.getString("orderitemid");
-      item_id = getCategory!;
-      var getPertable = prefs.getString("pretableid");
-      pretable_id = getPertable!;
+      var getMed_id = prefs.getString("med_id");
+      med_id = getMed_id!;
+      // var getPertable = prefs.getString("pretableid");
+      // pretable_id = getPertable!;
     });
-    // try {
-    //   String uri = "http://10.0.2.2/flutterproject_api/orderUpdate.php";
-    //   var res = await http.post(Uri.parse(uri), body: {
-    //     "item_id": item_id,
-    //     "pretable_id": pretable_id,
-    //     "o_quantity": o_quantity.text,
-    //     "table_id": t_id.text,
-    //     "time": time,
-    //   });
-    //   // print(res.body);
-    //   var response = jsonDecode(res.body);
-    //   if (response["sucess"] == "true") {
-    //     print("Record successfully Updated");
-    //   } else {
-    //     print("Record Failed to Update");
-    //   }
-    // } catch (e) {
-    //   print(e);
-    // }
+    try {
+      String uri = "http://10.0.2.2/carealert_api/updateMedicine.php";
+      var res = await http.post(Uri.parse(uri), body: {
+        "id": med_id,
+        "m_name": m_name.text,
+        "o_quantity": m_time.text,
+        "table_id": m_date.text,
+        "time": _filename,
+      });
+      // print(res.body);
+      var response = jsonDecode(res.body);
+      if (response["sucess"] == "true") {
+        print("Record successfully Updated");
+      } else {
+        print("Record Failed to Update");
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   // void initState() {
@@ -142,7 +142,7 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                           decoration: InputDecoration(
                               hintText: 'Enter Time',
                               prefixIcon:
-                              Icon(Icons.date_range, color: Colors.black),
+                              Icon(Icons.timelapse, color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
                                   borderSide:
@@ -159,15 +159,15 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                       ),
                       SizedBox(
                         child: TextFormField(
-                          controller: m_name,
+                          controller: m_date,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return "Enter Medicine Name";
+                              return "Enter Date";
                             }
                           },
                           decoration: InputDecoration(
-                              hintText: 'Enter Medicine Name',
-                              prefixIcon: Icon(Icons.person,
+                              hintText: 'Enter Date',
+                              prefixIcon: Icon(Icons.date_range,
                                   color: Colors.black),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(11),
@@ -213,7 +213,7 @@ class _UpdateMedicineState extends State<UpdateMedicine> {
                       Center(
                         child: SizedBox(
                           child: EButton(
-                            btnName: "Add",
+                            btnName: "Edit",
                             bgcolor: Colors.lightGreen,
                             callBack: () {
                               if (_formfield.currentState!.validate()) {
