@@ -35,59 +35,59 @@ class MySquareHome extends StatelessWidget {
         ));
   }
 }
-class MedicineDis extends StatelessWidget {
-  final String m_medicine;
-  final String image;
-  final String m_time;
-  final String m_date;
-  MedicineDis({required this.m_medicine, required this.image,required this.m_time, required this.m_date});
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Card(
-          elevation: 7,
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            height: 190,
-            // color: Colors.deepPurple,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(children:[
-                  Image.asset(
-                    'assets/images/' + image,
-                    width: 90,
-                    height: 100,
-                  ),
-                  SizedBox(
-                    width: 50,
-                    height: 20,
-                  ),
-                  Column(
-                    children: [
-                      Wrap(children: [Text("Medication: "+m_medicine, style: medicineTextStyle())]),
-                      SizedBox(
-                        height: 10,
-                      ),
-                     Wrap(children: [Text("Time: "+m_time, style: medicineTextStyle())]),
-                     SizedBox(
-                       width: 50,
-                     ),
-                     Wrap(children: [Text("Date: "+m_date, style: medicineTextStyle())]),
-                      SizedBox(
-                        width: 50,
-                        height: 15,
-                      ),
-                    ],
-                  )
-                ])
-              ],
-            ),
-          ),
-        ));
-  }
-}
+// class MedicineDis extends StatelessWidget {
+//   final String m_medicine;
+//   final String image;
+//   final String m_time;
+//   final String m_date;
+//   MedicineDis({required this.m_medicine, required this.image,required this.m_time, required this.m_date});
+//   Widget build(BuildContext context) {
+//     return Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 8.0),
+//         child: Card(
+//           elevation: 7,
+//           child: Container(
+//             margin: const EdgeInsets.all(10),
+//             padding: const EdgeInsets.all(10),
+//             height: 190,
+//             // color: Colors.deepPurple,
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Row(children:[
+//                   Image.asset(
+//                     'assets/images/' + image,
+//                     width: 90,
+//                     height: 100,
+//                   ),
+//                   SizedBox(
+//                     width: 50,
+//                     height: 20,
+//                   ),
+//                   Column(
+//                     children: [
+//                       Wrap(children: [Text("Medication: "+m_medicine, style: medicineTextStyle())]),
+//                       SizedBox(
+//                         height: 10,
+//                       ),
+//                      Wrap(children: [Text("Time: "+m_time, style: medicineTextStyle())]),
+//                      SizedBox(
+//                        width: 50,
+//                      ),
+//                      Wrap(children: [Text("Date: "+m_date, style: medicineTextStyle())]),
+//                       SizedBox(
+//                         width: 50,
+//                         height: 15,
+//                       ),
+//                     ],
+//                   )
+//                 ])
+//               ],
+//             ),
+//           ),
+//         ));
+//   }
+// }
 class MainHeader extends StatelessWidget {
   final String titleName;
   MainHeader({required this.titleName});

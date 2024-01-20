@@ -4,7 +4,7 @@ import 'package:care_alert/widgets/CustomWidget.dart';
 class Settings extends StatelessWidget{
   const Settings({super.key});
   Widget build(BuildContext context){
-    var arrNames=["Fingerprint Setting","Edit System time","Alarm Ringtone","Timer Ringtone","Additional Alarm Settings"];
+    var arrNames=["Password Setting","Edit System time","Alarm Ringtone","Timer Ringtone","Additional Alarm Settings"];
     return Container(
       child: Column(
         children: [
