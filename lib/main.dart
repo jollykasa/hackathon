@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:alarm/alarm.dart';
+import 'package:care_alert/alarm_clock/view/alarm%20view/alarm_view.dart';
+import 'package:care_alert/alarm_clock/view/splash_view/splash_screen.dart';
 import 'package:care_alert/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'home.dart';
 import 'SplashScreen.dart';
 import 'myheaderdrawer.dart';
@@ -9,6 +13,9 @@ import 'setting.dart';
 import 'history.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Alarm.init();
   runApp(const MyApp());
 }
 
@@ -23,7 +30,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -47,7 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
       container = History();
     } else if (currentPage == DrawerSections.settings) {
       container = Settings();
+    } else if (currentPage == DrawerSections.clock) {
+      container = MyClock();
     }
+
     return Scaffold(
       // body: Center(child: widgetList[myIndex]),
       body: container,
@@ -104,6 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
           Divider(),
           menuItem(3, "Settings", Icons.settings,
               currentPage == DrawerSections.settings ? true : false),
+          Divider(),
+          menuItem(4, "Clock", Icons.access_alarm_outlined,
+              currentPage == DrawerSections.settings ? true : false),
         ],
       ),
     );
@@ -122,6 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 currentPage = DrawerSections.history;
               } else if (id == 3) {
                 currentPage = DrawerSections.settings;
+              } else if (id == 4) {
+                currentPage = DrawerSections.clock;
               }
             });
           },
@@ -141,4 +156,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-enum DrawerSections { home, history, settings }
+class MyClock extends StatelessWidget {
+  const MyClock({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          timePickerTheme: TimePickerThemeData(
+              backgroundColor: Colors.white,
+              hourMinuteColor: Colors.transparent,
+              entryModeIconColor: Colors.pinkAccent,
+              dialHandColor: Colors.pinkAccent,
+              dialBackgroundColor: Colors.transparent,
+              dayPeriodShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide.none,
+              )),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const ClockScreen());
+  }
+}
+
+enum DrawerSections { home, history, settings, clock }
