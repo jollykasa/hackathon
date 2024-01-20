@@ -1,6 +1,6 @@
 {
-    "name": "care_alert",
-    "short_name": "care_alert",
+    "name": "carealert",
+    "short_name": "carealert",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
