@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "care_alert" "\0"
+            VALUE "FileDescription", "carealert" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "care_alert" "\0"
+            VALUE "InternalName", "carealert" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "care_alert.exe" "\0"
-            VALUE "ProductName", "care_alert" "\0"
+            VALUE "OriginalFilename", "carealert.exe" "\0"
+            VALUE "ProductName", "carealert" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
