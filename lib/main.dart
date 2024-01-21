@@ -5,19 +5,46 @@ import 'package:care_alert/alarm_clock/view/alarm%20view/alarm_view.dart';
 import 'package:care_alert/alarm_clock/view/splash_view/splash_screen.dart';
 import 'package:care_alert/home.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/services.dart';
+=======
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+>>>>>>> b31bd00082bf91d568911b89cf96baa4c1bf69e8
 import 'home.dart';
 import 'SplashScreen.dart';
 import 'myheaderdrawer.dart';
 import 'setting.dart';
 import 'history.dart';
 
+<<<<<<< HEAD
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Alarm.init();
+=======
+void main() async{
+  // await AndroidAlarmManager.initialize();
+  // WidgetsFlutterBinding.ensureInitialized();
+  //
+  // // Initialize the notification plugin
+  // await initNotifications();
+
+>>>>>>> b31bd00082bf91d568911b89cf96baa4c1bf69e8
   runApp(const MyApp());
 }
+// Future<void> initNotifications() async {
+//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//   FlutterLocalNotificationsPlugin();
+//
+//   const AndroidInitializationSettings initializationSettingsAndroid =
+//   AndroidInitializationSettings('app_icon');
+//
+//   final InitializationSettings initializationSettings =
+//   InitializationSettings(
+//       android: initializationSettingsAndroid, iOS: null, macOS: null);
+//
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

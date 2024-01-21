@@ -4,12 +4,15 @@ import 'dart:io';
 import 'package:care_alert/Profile_medicine.dart';
 import 'package:flutter/material.dart';
 import 'package:care_alert/widgets/CustomWidget.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:care_alert/widgets/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'local_notifications.dart';
 
 final materialDateButtonKey = UniqueKey();
 final materialTimeButtonKey = UniqueKey();
@@ -23,6 +26,12 @@ class AddMedicine extends StatefulWidget {
 
 
 class _AddMedicineState extends State<AddMedicine> {
+  void initState() {
+    super.initState();
+    NotificationWidget.init();
+    tz.initializeTimeZones();
+  }
+
   DateTime dateTime = DateTime.now();
   int counter = 0;
   var time,date;
@@ -55,6 +64,7 @@ class _AddMedicineState extends State<AddMedicine> {
       counter = counter + 1;
     });
   }
+
   final _formfield = GlobalKey<FormState>();
   var m_medicine = TextEditingController();
   // var m_time = TextEditingController();
@@ -69,6 +79,7 @@ class _AddMedicineState extends State<AddMedicine> {
   Future<void> addMedicine() async {
     print("Date: "+date);
     print("Time:"+time);
+    print(m_medicine.text+"  "+time+date+_filename);
     var prefs = await SharedPreferences.getInstance();
     setState(() {
       var getprofile_name = prefs.getString("profile_name");
@@ -112,9 +123,6 @@ class _AddMedicineState extends State<AddMedicine> {
     } catch (e) {
       print(e);
     }
-  }
-  void initState() {
-    super.initState();
   }
 
   Widget build(BuildContext context) {
@@ -254,10 +262,14 @@ class _AddMedicineState extends State<AddMedicine> {
                             bgcolor: Colors.lightGreen,
                             callBack: () {
                               if (_formfield.currentState!.validate()) {
+                                NotificationWidget.showNotification(
+                                  title: "MEDICINE TIME",
+                                  body: "Please take your medicine",
+                                );
                                 addMedicine();
                                 setState(() {
-                                  Navigator.of(context, rootNavigator: true).pushReplacement(
-                                      MaterialPageRoute(builder: (context) => ProfileMedicine()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(
+                                      builder: (context)=>ProfileMedicine()));
                                 });
                               }
                             },

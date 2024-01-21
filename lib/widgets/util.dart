@@ -9,5 +9,5 @@ TextStyle headTextStyle() {
 }
 TextStyle medicineTextStyle() {
   return TextStyle(
-      fontSize: 21, color: Colors.black, fontWeight: FontWeight.w700);
+      fontSize: 20, color: Colors.black, fontWeight: FontWeight.w700);
 }

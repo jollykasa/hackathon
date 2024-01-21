@@ -124,7 +124,7 @@ class EButton extends StatelessWidget {
         this.callBack});
   Widget build(BuildContext context) {
     return Container(
-        width: 160,
+        width: 150,
         height: 50,
         child: ElevatedButton(
           onPressed: () {
@@ -135,12 +135,12 @@ class EButton extends StatelessWidget {
             children: [
               icon!,
               SizedBox(
-                width: 10,
+                width: 20,
               ),
-              Text(btnName, style: TextStyle(color: Colors.white))
+              Center(child: Text(btnName, style: TextStyle(color: Colors.white)))
             ],
           )
-              : Text(btnName, style: TextStyle(color: Colors.white)),
+              : Center(child: Text(btnName, style: TextStyle(color: Colors.white))),
           style: ElevatedButton.styleFrom(
               primary: bgcolor,
               shadowColor: bgcolor,
