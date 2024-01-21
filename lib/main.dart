@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:alarm/alarm.dart';
+import 'package:care_alert/alarm_clock/view/alarm%20view/alarm_view.dart';
+import 'package:care_alert/alarm_clock/view/splash_view/splash_screen.dart';
 import 'package:care_alert/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,7 +12,7 @@ import 'myheaderdrawer.dart';
 import 'setting.dart';
 import 'history.dart';
 
-void main() async{
+void main() async {
   // await AndroidAlarmManager.initialize();
   // WidgetsFlutterBinding.ensureInitialized();
   //
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -57,24 +60,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var currentPage=DrawerSections.home;
+  var currentPage = DrawerSections.home;
   @override
   Widget build(BuildContext context) {
     var container;
-    if(currentPage==DrawerSections.home){
-      container=Home();
-    }else if(currentPage==DrawerSections.history){
-      container=History();
-    }else if(currentPage==DrawerSections.settings){
-      container=Settings();
+    if (currentPage == DrawerSections.home) {
+      container = Home();
+    } else if (currentPage == DrawerSections.history) {
+      container = History();
+    } else if (currentPage == DrawerSections.settings) {
+      container = Settings();
+    } else if (currentPage == DrawerSections.clock) {
+      container = MyClock();
     }
+
     return Scaffold(
       // body: Center(child: widgetList[myIndex]),
-      body:container,
+      body: container,
       appBar: AppBar(
           iconTheme: IconThemeData(
-            size: 30,//change size on your need
-            color: Colors.white,//change color on your need
+            size: 30, //change size on your need
+            color: Colors.white, //change color on your need
           ),
           backgroundColor: Colors.blueGrey,
           title: Center(
@@ -88,13 +94,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const Center(
                     child: Text(
-                      "Care Alert",
-                      style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-                    )),
+                  "Care Alert",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                )),
               ],
             ),
           )),
-      drawer:Drawer(
+      drawer: Drawer(
         child: SingleChildScrollView(
           child: Container(
             child: Column(
@@ -112,51 +121,79 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget MyDrawerList() {
     return Container(
       padding: EdgeInsets.only(top: 15),
-      child:Column(
+      child: Column(
         children: [
-          menuItem(1,"Home",Icons.home,
-              currentPage==DrawerSections.home? true:false),
-          menuItem(2,"History",Icons.dashboard_outlined,
-              currentPage==DrawerSections.history? true:false),
+          menuItem(1, "Home", Icons.home,
+              currentPage == DrawerSections.home ? true : false),
+          menuItem(2, "History", Icons.dashboard_outlined,
+              currentPage == DrawerSections.history ? true : false),
           Divider(),
-          menuItem(3,"Settings",Icons.settings,
-              currentPage==DrawerSections.settings? true:false),
+          menuItem(3, "Settings", Icons.settings,
+              currentPage == DrawerSections.settings ? true : false),
+          Divider(),
+          menuItem(4, "Clock", Icons.access_alarm_outlined,
+              currentPage == DrawerSections.settings ? true : false),
         ],
       ),
     );
   }
-  Widget menuItem(int id, String title, IconData icon,bool selected){
+
+  Widget menuItem(int id, String title, IconData icon, bool selected) {
     return Material(
-      color:selected?Colors.grey.shade400:Colors.transparent,
+      color: selected ? Colors.grey.shade400 : Colors.transparent,
       child: InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
             setState(() {
-              if(id==1){
-                currentPage=DrawerSections.home;
-              }else if(id==2){
-                currentPage=DrawerSections.history;
-              }else if(id==3){
-                currentPage=DrawerSections.settings;
+              if (id == 1) {
+                currentPage = DrawerSections.home;
+              } else if (id == 2) {
+                currentPage = DrawerSections.history;
+              } else if (id == 3) {
+                currentPage = DrawerSections.settings;
+              } else if (id == 4) {
+                currentPage = DrawerSections.clock;
               }
             });
           },
-          child:Padding(
-            padding:EdgeInsets.all(15.0),
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
             child: Row(
-              children:[
-                Expanded(child: Icon(icon,size:22)),
-                Expanded(flex:3,child:Text(title,style:TextStyle(fontSize: 18)),)
+              children: [
+                Expanded(child: Icon(icon, size: 22)),
+                Expanded(
+                  flex: 3,
+                  child: Text(title, style: TextStyle(fontSize: 18)),
+                )
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
 
-enum DrawerSections {
-  home,
-  history,
-  settings
+class MyClock extends StatelessWidget {
+  const MyClock({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          timePickerTheme: TimePickerThemeData(
+              backgroundColor: Colors.white,
+              hourMinuteColor: Colors.transparent,
+              entryModeIconColor: Colors.pinkAccent,
+              dialHandColor: Colors.pinkAccent,
+              dialBackgroundColor: Colors.transparent,
+              dayPeriodShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide.none,
+              )),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const ClockScreen());
+  }
 }
+
+enum DrawerSections { home, history, settings, clock }
