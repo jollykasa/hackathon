@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:care_alert/AddMedicine.dart';
+import 'package:care_alert/local_notifications.dart';
 import 'package:care_alert/widgets/util.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,7 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
   void initState() {
     super.initState();
     getmedicinerecord();
+    // NotificationWidget.init();
   }
   @override
   Widget build(BuildContext context) {
@@ -85,9 +87,11 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
                                   ),
                                   Column(
                                     children: [
-                                      Wrap(children: [Text("Medication: "+medication[index]["m_medicine"], style: medicineTextStyle())]),
+                                      Wrap(children: [
+                                        Text("Medication: "+medication[index]["m_medicine"], style: medicineTextStyle())
+                                      ]),
                                       SizedBox(
-                                        height: 10,
+                                        height: 5,
                                       ),
                                       Wrap(children: [Text("Time: "+medication[index]["m_time"], style: medicineTextStyle())]),
                                       SizedBox(
@@ -106,7 +110,13 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
                                             var prefs = await SharedPreferences.getInstance();
                                             prefs.setString(
                                             "med_id", medication[index]["id"]);
-                                            Navigator.push(
+                                            prefs.setString(
+                                                "med_name", medication[index]["m_medicine"]);
+                                            prefs.setString(
+                                                "m_time", medication[index]["m_time"]);
+                                            prefs.setString(
+                                                "m_date", medication[index]["m_date"]);
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
@@ -194,7 +204,7 @@ class _ProfileMedicineState extends State<ProfileMedicine> {
       floatingActionButton:FloatingActionButton(
           backgroundColor: Colors.grey,
           onPressed: () {
-             Navigator.of(context, rootNavigator: true).push(
+             Navigator.of(context, rootNavigator: true).pushReplacement(
                  MaterialPageRoute(builder: (context) => AddMedicine()));
           },
           child: const Icon(Icons.add,size: 30)),

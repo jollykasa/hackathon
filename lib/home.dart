@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
       floatingActionButton:FloatingActionButton(
           backgroundColor: Colors.grey,
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).push(
+            Navigator.of(context, rootNavigator: true).pushReplacement(
                 MaterialPageRoute(builder: (context) => AddProfile()));
           },
           child: const Icon(Icons.add,size: 30)),

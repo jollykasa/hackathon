@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:care_alert/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'home.dart';
 import 'SplashScreen.dart';
 import 'myheaderdrawer.dart';
@@ -9,9 +10,27 @@ import 'setting.dart';
 import 'history.dart';
 
 void main() async{
+  // await AndroidAlarmManager.initialize();
+  // WidgetsFlutterBinding.ensureInitialized();
+  //
+  // // Initialize the notification plugin
+  // await initNotifications();
 
   runApp(const MyApp());
 }
+// Future<void> initNotifications() async {
+//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//   FlutterLocalNotificationsPlugin();
+//
+//   const AndroidInitializationSettings initializationSettingsAndroid =
+//   AndroidInitializationSettings('app_icon');
+//
+//   final InitializationSettings initializationSettings =
+//   InitializationSettings(
+//       android: initializationSettingsAndroid, iOS: null, macOS: null);
+//
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -19,16 +19,15 @@ header('Access-Control-Allow-Methods: GET, POST');
         $m_image=$_POST["m_image"];
     }else return;
     $con=dbconnection();
-    print($id.$m_name.$m_date.$m_time.$m_image);
-    // $sql="UPDATE `orders` SET `table_id`='$table_id',`o_quantity`=$o_quantity,`time`='$time' WHERE `item_id`=$item_id AND `table_id`='$pretable_id'";
-    
-    // // print(json_encode($sql));
-    // $result =mysqli_query($con,$sql);
-    // $arr=[];
-    // if($result){
-    //     $arr["sucess"]="true";
-    // }else{
-    //     $arr["sucess"]="false";
-    // }
-    // print(json_encode($arr));
+    // print(json_encode($id.$m_name.$m_date.$m_time.$m_image));
+    $sql="UPDATE medication SET `m_medicine`='$m_name',`m_image`='$m_image',`m_time`='$m_time',`m_date`='$m_date' WHERE `id`=$id";
+    // print(json_encode($sql));
+    $result =mysqli_query($con,$sql);
+    $arr=[];
+    if($result){
+        $arr["sucess"]="true";
+    }else{
+        $arr["sucess"]="false";
+    }
+    print(json_encode($arr));
 ?>
