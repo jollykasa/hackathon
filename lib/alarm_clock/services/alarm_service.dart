@@ -17,15 +17,15 @@ class MyAlarm {
     final alarmSettings = AlarmSettings(
       id: Random().nextInt(100),
       dateTime: dateTime,
-      assetAudioPath: 'assets/audio/tune.mp3',
+      assetAudioPath: '/audio/tune.mp3',
       loopAudio: true,
       vibrate: true,
-      //  volumeMax: true,
+      volume: 1,
       fadeDuration: 3.0,
       notificationTitle: 'Alarm is Playing',
       notificationBody: 'Tap to stop',
       enableNotificationOnKill: true,
-      //  stopOnNotificationOpen: true,
+      // stopOnNotificationOpen: true,
     );
     Alarm.set(alarmSettings: alarmSettings).then((value) {
       BlocProvider.of<AlarmCubit>(context).helper.insert(AlarmModel(
